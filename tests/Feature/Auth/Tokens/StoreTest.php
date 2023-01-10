@@ -73,4 +73,23 @@ class StoreTest extends TestCase
                 ],
             ]);
     }
+
+    public function test_guest_only () {
+
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)
+            ->withHeaders([
+                'User-Agent' => $this->faker->userAgent,
+            ])
+            ->postJson($this->api, [
+                'email' => $user->email,
+                'password' => 'password',
+            ]);
+
+        $response->assertStatus(403)
+            ->assertJson([
+                'message' => __('auth.guest_only'),
+            ]);
+    }
 }

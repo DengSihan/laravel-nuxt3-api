@@ -23,4 +23,14 @@ class ShowTest extends TestCase
                 'email' => $user->email,
             ]);
     }
+
+    public function test_authed_only () {
+
+        $response = $this->get($this->api);
+
+        $response->assertStatus(401)
+            ->assertJson([
+                'message' => __('auth.unauthorized'),
+            ]);
+    }
 }

@@ -14,6 +14,6 @@ class Authenticate extends Middleware
      */
     protected function redirectTo($request)
     {
-        abort(401, __('auth.unauthenticated'));
+        abort(401, __('auth.unauthorized'));
     }
 }
