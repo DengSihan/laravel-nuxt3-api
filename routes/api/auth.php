@@ -7,5 +7,6 @@ Route::group([
 ], function() {
 
     include 'auth/tokens.php';
-
+    include 'auth/user.php';
+    
 });
