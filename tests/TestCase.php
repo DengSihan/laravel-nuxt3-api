@@ -2,9 +2,13 @@
 
 namespace Tests;
 
-use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Illuminate\Foundation\Testing\{
+    TestCase as BaseTestCase,
+    RefreshDatabase,
+    WithFaker,
+};
 
 abstract class TestCase extends BaseTestCase
 {
-    use CreatesApplication;
+    use CreatesApplication, RefreshDatabase, WithFaker;
 }
