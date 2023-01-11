@@ -108,4 +108,5 @@ return [
 
     'password_timeout' => 10800,
 
+    'validity_period' => 60 * 24 * 7,
 ];

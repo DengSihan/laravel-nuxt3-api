@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Facade;
 
 return [
 
+    'domain' => env('APP_DOMAIN', 'localhost'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Name
@@ -185,6 +187,7 @@ return [
         /*
          * Package Service Providers...
          */
+        \SocialiteProviders\Manager\ServiceProvider::class,
 
         /*
          * Application Service Providers...

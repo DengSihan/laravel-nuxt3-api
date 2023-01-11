@@ -29,3 +29,14 @@ Route::group([
         ->name('tokens.destroyCurrent');
     
 });
+
+
+$socials = implode('|', array_diff(array_keys(config('services')), ['mailgun', 'postmark', 'ses']));
+
+// social login
+Route::any('social/{type}/tokens', 'SocialTokensController@redirect')
+    ->where('type', $socials);
+
+// social login callback
+Route::any('social/{type}/tokens/callback', 'SocialTokensController@callback')
+    ->where('type', $socials);
