@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\Tokens\{
     StoreRequest,
@@ -44,4 +45,12 @@ class TokensController extends Controller
             ], 401);
         }
     }
+
+    public function destroyCurrent (Request $request) {
+
+        $request->user()->currentAccessToken()->delete();
+
+        return response()->noContent();
+    }
+
 }
