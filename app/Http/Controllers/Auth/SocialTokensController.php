@@ -46,9 +46,7 @@ class SocialTokensController extends Controller
             $user->social = $social;
             $user->save();
 
-            return redirect(
-                $this->getProfilePageUrl(), 302
-            );
+            return redirect($this->getProfilePageUrl(), 302);
         }
         else {
             $user = User::where('social->' . $type, '=', $credentials->id)->first();
