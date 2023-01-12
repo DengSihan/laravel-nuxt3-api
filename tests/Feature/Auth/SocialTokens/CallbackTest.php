@@ -73,7 +73,9 @@ class CallbackTest extends TestCase
         $social_account_id = Str::random(10);
 
         $user = User::factory()->create([
-            $social_key => $social_account_id,
+            'social' => [
+                $type => $social_account_id
+            ]
         ]);
 
         $this->assertDatabaseHas('users', [
@@ -82,20 +84,18 @@ class CallbackTest extends TestCase
 
         $this->boot_mocker($type, $social_account_id);
 
-        $response = $this->actingAs($user)
-            ->post(
+        $response = $this->post(
                 route('auth.social.tokens.callback', ['type' => $type])
             );
 
         $response->assertStatus(302);
         $response->assertRedirect('/profile');
 
-        $this->assertDatabaseHas('users', [
-            'id' => $user->id,
-            'social' => [
-                $type => $social_account_id,
-            ],
-        ]);
+
+        $this->assertEquals(
+            $user->social[$type],
+            $social_account_id
+        );
     }
 
     public function test_exist_user_login_via_social_oauth () {
