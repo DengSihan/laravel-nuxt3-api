@@ -21,8 +21,10 @@ class RedirectTest extends TestCase
 
             $response->assertStatus(302);
 
-            $redirect_location = $response->headers->get('Location');
-            $this->assertStringStartsWith($this->redirect[$type], $redirect_location);
+            $this->assertStringStartsWith(
+                $this->redirect[$type],
+                $response->headers->get('Location')
+            );
         }
     }
 }
