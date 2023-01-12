@@ -34,9 +34,11 @@ Route::group([
 $socials = implode('|', array_diff(array_keys(config('services')), ['mailgun', 'postmark', 'ses']));
 
 // social login
-Route::any('social/{type}/tokens', 'SocialTokensController@redirect')
-    ->where('type', $socials);
+Route::post('social/{type}/tokens', 'SocialTokensController@redirect')
+    ->where('type', $socials)
+    ->name('social.tokens.redirect');
 
 // social login callback
 Route::any('social/{type}/tokens/callback', 'SocialTokensController@callback')
-    ->where('type', $socials);
+    ->where('type', $socials)
+    ->name('social.tokens.callback');

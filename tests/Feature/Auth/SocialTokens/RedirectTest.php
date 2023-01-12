@@ -3,44 +3,26 @@
 namespace Tests\Feature\Auth\SocialTokens;
 
 use Tests\TestCase;
-use App\Models\User;
-use Laravel\Socialite\Facades\Socialite;
-use Mockery;
 
 class RedirectTest extends TestCase
 {
-    protected $api = '/api/auth/social/{type}/tokens';
+    use SocialHelper;
 
-    protected function getSocialProviders ()
-    {
-        $socials = array_diff(array_keys(config('services')), ['mailgun', 'postmark', 'ses']);
+    protected $redirect = [
+        'github' => 'https://github.com/login/oauth/authorize',
+    ];
 
-        return $socials;
-    }
-
-    public function test_redirect_to_social_login () {
-
-        foreach ($this->getSocialProviders() as $social) {
-
-            $api = str_replace('{type}', $social, $this->api);
-
-            $response = $this->get($api);
+    public function test_social_redirect () {
+        foreach ($this->getSocialProviders() as $type) {
+            
+            $response = $this->post(
+                route('auth.social.tokens.redirect', ['type' => $type])
+            );
 
             $response->assertStatus(302);
+
+            $redirect_location = $response->headers->get('Location');
+            $this->assertStringStartsWith($this->redirect[$type], $redirect_location);
         }
-
     }
-
-    // public function test_guest_social_callback () {
-            
-    //     foreach ($this->getSocialProviders() as $social) {
-
-    //         $api = str_replace('{type}', $social, $this->api) . '/callback';
-
-    //         $mock_user = Mockery::mock('Laravel\Socialite\Two\User');
-
-            
-
-    //     }
-    // }
 }
