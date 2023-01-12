@@ -15,3 +15,4 @@ use Illuminate\Support\Facades\Route;
 */
 
 include 'api/auth.php';
+include 'api/client-info.php';
