@@ -45,7 +45,7 @@ class SocialTokensController extends Controller
             $token,
             config('auth.validity_period'),
             null,
-            config('app.domain'),
+            null,
             null,
             false,
             true,
