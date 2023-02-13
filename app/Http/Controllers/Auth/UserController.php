@@ -9,6 +9,7 @@ use App\Http\Requests\Auth\User\{
     StoreRequest,
 };
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -19,7 +20,10 @@ class UserController extends Controller
     public function store (StoreRequest $request) {
 
         $user = User::create(
-                $request->only(['name', 'email', 'password'])
+                array_merge(
+                    $request->only(['name', 'email']),
+                    ['password' => Hash::make($request->password)]
+                )
             );
 
         $user->refresh();
